@@ -8,7 +8,7 @@ window.addEventListener("wpp-b2b-connection", () => {
 
 window.addEventListener("send-to-whatsapp", (e) => {
   const { number, message, mediaUrl } = e.detail;
-  console.log("🚀 [SaaS] Evento send-to-whatsapp recebido", { number, message, mediaUrl });
+  console.log("🚀 [SaaS] send-to-whatsapp event received", { number, message, mediaUrl });
 
   chrome.runtime.sendMessage(
     {

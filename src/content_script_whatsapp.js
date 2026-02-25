@@ -1,11 +1,11 @@
 chrome.runtime.onMessage.addListener((payload, sender, sendResponse) => {
-  console.log("📨 WhatsApp recebeu mensagem:", payload);
+  console.log("📨 WhatsApp received message:", payload);
 
   if (payload.type === "HELLO_WORLD_FROM_SAAS") {
-    console.log("👋 Recebi um Hello World do SaaS!");
+    console.log("👋 Received a Hello World from SaaS!");
     sendResponse({
       success: true,
-      message: "WhatsApp Web recebeu o Hello World com sucesso!"
+      message: "WhatsApp Web successfully received Hello World!"
     });
     return true;
   }
@@ -15,7 +15,7 @@ chrome.runtime.onMessage.addListener((payload, sender, sendResponse) => {
 
     const uuid = WPP_Bridge_Utils.generateUniqueId();
 
-    console.log(`📤 Enviando para ${number}: ${message} ${media ? `(Mídia presente)` : ''}`);
+    console.log(`📤 Sending to ${number}: ${message} ${media ? `(Media present)` : ''}`);
 
     document.dispatchEvent(
       new CustomEvent("whatsappContentToWhatsappJs", {
@@ -23,7 +23,7 @@ chrome.runtime.onMessage.addListener((payload, sender, sendResponse) => {
       })
     );
 
-    sendResponse({ success: true, message: "Mensagem enviada com sucesso." });
+    sendResponse({ success: true, message: "Message sent successfully." });
 
     return true;
   }

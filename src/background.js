@@ -19,7 +19,7 @@ const getBase64FromUrl = async (url) => {
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "HELLO_WORLD") {
-    console.log("🌍 Hello World recebido! Encaminhando para WhatsApp Web...");
+    console.log("🌍 Hello World received! Forwarding to WhatsApp Web...");
 
     chrome.tabs.query({ url: "https://web.whatsapp.com/*" }, (tabs) => {
       if (tabs.length > 0) {
@@ -30,7 +30,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             sendResponse(
               response || {
                 success: true,
-                message: "Hello World encaminhado para WhatsApp!",
+                message: "Hello World forwarded to WhatsApp!",
               }
             );
           }
@@ -38,7 +38,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       } else {
         sendResponse({
           success: false,
-          message: "WhatsApp Web não está aberto",
+          message: "WhatsApp Web is not open",
         });
       }
     });
@@ -54,9 +54,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         // Se vier mediaUrl mas não media (novo fluxo), converte agora no background
         if (message.mediaUrl && !media) {
-          console.log("🔄 [Background] Convertendo mediaUrl:", message.mediaUrl);
+          console.log("🔄 [Background] Converting mediaUrl:", message.mediaUrl);
           media = await getBase64FromUrl(message.mediaUrl);
-          console.log("✅ [Background] Conversão concluída.");
+          console.log("✅ [Background] Conversion completed.");
         }
 
         chrome.tabs.query({ url: "https://web.whatsapp.com/*" }, (tabs) => {
@@ -70,19 +70,19 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 media: media // Envia o objeto de media já convertido
               },
               (response) => {
-                sendResponse(response || { success: false, message: "Sem resposta" });
+                sendResponse(response || { success: false, message: "No response" });
               }
             );
           } else {
             sendResponse({
               success: false,
-              message: "WhatsApp Web não está aberto",
+              message: "WhatsApp Web is not open",
             });
           }
         });
       } catch (error) {
-        console.error("❌ [Background] Erro no processamento:", error);
-        sendResponse({ success: false, message: "Erro interno no background: " + error.message });
+        console.error("❌ [Background] Processing error:", error);
+        sendResponse({ success: false, message: "Internal background error: " + error.message });
       }
     })();
 
