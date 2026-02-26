@@ -107,6 +107,36 @@
         .btn:hover {
             background-color: #0891b2;
         }
+
+        .btn:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .test-block {
+            display: none;
+            margin-top: 16px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .test-block label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #4b5563;
+        }
+
+        .test-block input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px;
+            margin-top: 4px;
+            margin-bottom: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 13px;
+        }
     </style>
 </head>
 
@@ -124,6 +154,13 @@
     </div>
 
     <a href="https://web.whatsapp.com" target="_blank" class="btn" id="openWppBtn">Open WhatsApp Web</a>
+
+    <div id="testBlock" class="test-block">
+        <label for="testNumber">Test Number (incl. country code):</label>
+        <input type="text" id="testNumber" placeholder="5511999999999" />
+        <button id="sendTestBtn" class="btn" style="margin-top: 0; background-color: #10b981;">Send Test
+            Message</button>
+    </div>
 
     <script src="popup.js"></script>
 </body>
