@@ -71,7 +71,8 @@ chrome.runtime.onMessage.addListener((message: ExtensionMessage, _sender, sendRe
                 type: "SEND_MESSAGE",
                 number: message.number,
                 message: message.message,
-                media: media // Envia o objeto de media já convertido
+                media: media, // Envia o objeto de media já convertido
+                uuid: message.uuid
               },
               (response) => {
                 sendResponse(response || { success: false, message: "No response" });

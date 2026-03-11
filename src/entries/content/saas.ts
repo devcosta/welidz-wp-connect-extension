@@ -14,9 +14,7 @@ window.addEventListener("send-to-whatsapp", (e: Event) => {
   chrome.runtime.sendMessage(
     {
       type: "SEND_MESSAGE",
-      number,
-      message,
-      mediaUrl,
+      ...customEvent.detail,
     } as ExtensionMessage,
     (response) => {
       window.dispatchEvent(

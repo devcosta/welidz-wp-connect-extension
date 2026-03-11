@@ -45,11 +45,28 @@ chrome.runtime.onMessage.addListener((payload: ExtensionMessage, _sender, sendRe
   }
 
   if (payload.type === "SEND_MESSAGE") {
-    const { number, message, media } = payload;
-
-    const uuid = WPP_Bridge_Utils.generateUniqueId();
+    const { number, message, media, uuid: incomingUuid } = payload;
+    const uuid = incomingUuid || WPP_Bridge_Utils.generateUniqueId();
 
     console.log(`📤 Sending to ${number}: ${message} ${media ? `(Media present)` : ''}`);
+
+    const handleResponse = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail.uuid === uuid) {
+        console.log("📥 Received response for uuid:", uuid, customEvent.detail);
+        document.removeEventListener("WhatsappjsResponse", handleResponse);
+        clearTimeout(timeoutId);
+        sendResponse(customEvent.detail);
+      }
+    };
+
+    const timeoutId = setTimeout(() => {
+      console.warn("⏳ Timeout waiting for WhatsappjsResponse for uuid:", uuid);
+      document.removeEventListener("WhatsappjsResponse", handleResponse);
+      sendResponse({ success: false, message: "Timeout waiting for WhatsApp response." });
+    }, 5000);
+
+    document.addEventListener("WhatsappjsResponse", handleResponse);
 
     document.dispatchEvent(
       new CustomEvent("whatsappContentToWhatsappJs", {
@@ -57,8 +74,6 @@ chrome.runtime.onMessage.addListener((payload: ExtensionMessage, _sender, sendRe
       })
     );
 
-    sendResponse({ success: true, message: "Message sent successfully." });
-
-    return true;
+    return true; // Keep the messaging channel open
   }
 });
