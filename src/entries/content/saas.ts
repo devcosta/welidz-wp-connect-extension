@@ -6,8 +6,9 @@ window.addEventListener("wpp-b2b-connection", () => {
   });
 });
 
-window.addEventListener("send-to-whatsapp", (e) => {
-  const { number, message, mediaUrl } = e.detail;
+window.addEventListener("send-to-whatsapp", (e: Event) => {
+  const customEvent = e as CustomEvent;
+  const { number, message, mediaUrl } = customEvent.detail;
   console.log("🚀 [SaaS] send-to-whatsapp event received", { number, message, mediaUrl });
 
   chrome.runtime.sendMessage(
@@ -16,7 +17,7 @@ window.addEventListener("send-to-whatsapp", (e) => {
       number,
       message,
       mediaUrl,
-    },
+    } as ExtensionMessage,
     (response) => {
       window.dispatchEvent(
         new CustomEvent("send-to-whatsapp-response", { detail: response })

@@ -4,14 +4,14 @@
   "version": "0.0.1",
   "description": "Connect Welidz directly to your WhatsApp Web simply and quickly.",
   "icons": {
-    "16": "src/assets/icon_16.png",
-    "32": "src/assets/icon_32.png",
-    "48": "src/assets/icon_48.png",
-    "128": "src/assets/icon_128.png"
+    "16": "src/ui/assets/icon_16.png",
+    "32": "src/ui/assets/icon_32.png",
+    "48": "src/ui/assets/icon_48.png",
+    "128": "src/ui/assets/icon_128.png"
   },
   "action": {
-    "default_popup": "src/popup.html",
-    "default_icon": "src/assets/icon_48.png"
+    "default_popup": "src/ui/popup/index.html",
+    "default_icon": "src/ui/assets/icon_48.png"
   },
   "permissions": [
     "tabs"
@@ -20,7 +20,7 @@
     "<all_urls>"
   ],
   "background": {
-    "service_worker": "src/background.js",
+    "service_worker": "src/entries/background/main.ts",
     "type": "module"
   },
   "content_scripts": [
@@ -29,9 +29,7 @@
         "https://web.whatsapp.com/*"
       ],
       "js": [
-        "lib/InjectModules.js",
-        "src/utils/helpers.js",
-        "src/content_script_whatsapp.js"
+        "src/entries/content/whatsapp.ts"
       ]
     },
     {
@@ -40,21 +38,7 @@
         "*://*.welidz.com/*"
       ],
       "js": [
-        "src/content_script_saas.js"
-      ]
-    }
-  ],
-  "web_accessible_resources": [
-    {
-      "resources": [
-        "lib/InjectModules.js",
-        "lib/whatsapp.js",
-        "Injected/index.js",
-        "Injected/Store.js",
-        "Injected/Utils.js"
-      ],
-      "matches": [
-        "https://web.whatsapp.com/*"
+        "src/entries/content/saas.ts"
       ]
     }
   ],

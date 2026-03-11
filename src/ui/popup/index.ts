@@ -1,10 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     const statusDot = document.getElementById('statusDot');
     const statusText = document.getElementById('statusText');
-    const openWppBtn = document.getElementById('openWppBtn');
+    const openWppBtn = document.getElementById('openWppBtn') as HTMLAnchorElement | null;
     const testBlock = document.getElementById('testBlock');
-    const testNumber = document.getElementById('testNumber');
-    const sendTestBtn = document.getElementById('sendTestBtn');
+    const testNumber = document.getElementById('testNumber') as HTMLInputElement | null;
+    const sendTestBtn = document.getElementById('sendTestBtn') as HTMLButtonElement | null;
+
+    if (!statusDot || !statusText || !openWppBtn || !testBlock || !testNumber || !sendTestBtn) {
+        console.error("Popup elements not found");
+        return;
+    }
 
     // Verify if a WhatsApp web tab is currently open
     chrome.tabs.query({ url: "https://web.whatsapp.com/*" }, (tabs) => {
